@@ -22,7 +22,7 @@ function operate(operator, a, b) {
 }
 
 function updateDisplay(value) {
-    display.textContent = value.toString().slice(0, 15);
+    display.textContent = value.toString().slice(0, 11);
 }
 
 function clearAll() {
@@ -46,7 +46,7 @@ function handleNumber(number) {
       currentOperator = null;
       resultDisplayed = false;
   }
-  if (currentInput.length >= 15) return;
+  if (currentInput.length >= 11) return;
   currentInput += number;
   updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
