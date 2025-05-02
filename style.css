@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
 body {
   background-color: #0a0a0a;
   font-family: 'Orbitron', sans-serif;
@@ -18,19 +16,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
   border: 2px solid #0f0;
   transition: box-shadow 0.3s ease-in-out;
 }
 
 .calculator:hover {
-  animation: glowPulse 2s infinite;
-}
-
-@keyframes glowPulse {
-  0%   { box-shadow: 0 0 30px rgba(0, 255, 0, 0.2); }
-  50%  { box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); }
-  100% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.2); }
+  box-shadow: 0 0 50px rgba(0, 255, 0, 0.7);
 }
 
 .display {
@@ -48,7 +40,9 @@ body {
   align-items: center;
   justify-content: flex-end;
   box-shadow: inset 0 0 10px #0f0;
-  text-shadow: 0 0 6px #0f0;
+  overflow: hidden;   /* Döljer overflow i x- och y-led */
+  white-space: nowrap; /* Förhindrar radbrytning */
+  text-overflow: ellipsis;  /* Visar "..." om texten är för lång */
 }
 
 .buttons {
@@ -81,9 +75,9 @@ body {
 .btn:hover {
   background-color: #333;
   box-shadow: 0 0 15px #0f0;
-  transform: scale(1.05);
 }
 
+/* Operator-knappar */
 .btn.operator {
   background-color: #003300;
   color: #0f0;
@@ -91,12 +85,12 @@ body {
   text-shadow: 0 0 5px #0f0;
 }
 
+/* Equals-knappen */
 .btn.equals {
   background-color: #00cc00;
   color: #000;
   font-weight: bold;
   box-shadow: 0 0 15px #00ff00;
-  text-shadow: none;
 }
 
 .btn.equals:hover {
@@ -104,30 +98,28 @@ body {
   box-shadow: 0 0 25px #00ff00;
 }
 
-.btn.equals:active {
-  transform: scale(0.98);
-  box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00 inset;
-}
-
+/* Decimal, CE, C, +- */
 .btn.function {
   background-color: #224422;
   color: #0f0;
   text-shadow: 0 0 4px #0f0;
 }
 
-
+/* Percent-knappen */
 .btn.percent {
   background-color: #004400;
   color: #0f0;
   text-shadow: 0 0 4px #0f0;
 }
 
+/* Sifferknappar */
 .btn.number {
   color: #0f0;
   background-color: #111;
   text-shadow: 0 0 6px #0f0;
 }
 
+/* Responsivt */
 @media (max-width: 400px) {
   .calculator {
     width: 90%;
