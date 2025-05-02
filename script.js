@@ -76,3 +76,15 @@ function handleOperator(operator){
   }
 }
 
+function handleEquals() {
+  if(firstOperand === '' || currentOperator === null || currentInput === '') return;
+
+  const result = operate(currentOperator, firstOperand, currentInput);
+  updateDisplay(result);
+  firstOperand = result.toString();
+  currentInput = '';
+  currentOperator = null;
+  resultDisplayed = true;
+}
+
+
