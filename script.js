@@ -24,7 +24,6 @@ function operate(operator, a, b) {
 
 function updateDisplay (value){
    display.textContent = value.toString().slice(0, 12);
-
 }
 
 function clearAll(){
@@ -39,5 +38,15 @@ function clearAll(){
 function clearEntry() {
   currentInput = currentInput.slice(0, -1);
   updateDisplay(currentInput || '0');
-  
 }
+
+function handlerNumber(number) {
+  if(resultDisplayed){
+    currentInput = '';
+    resultDisplayed = false;
+  }
+  if (currentInput.length >= 12) return;
+  currentInput += number;
+  updateDisplay(currentInput);
+}
+
