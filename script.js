@@ -87,4 +87,16 @@ function handleEquals() {
   resultDisplayed = true;
 }
 
+function handlePlusMinus() {
+  if (currentInput !== '') {
+      currentInput = (parseFloat(currentInput) * -1).toString();
+      updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+  }
+}
 
+function handlePercent() {
+  if (currentInput !== '') {
+      currentInput = (parseFloat(currentInput) / 100).toString();
+      updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+  }
+}
