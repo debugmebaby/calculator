@@ -22,7 +22,7 @@ function operate(operator, a, b) {
 }
 
 function updateDisplay(value) {
-    display.textContent = value.toString().slice(0, 12);
+    display.textContent = value.toString().slice(0, 15);
 }
 
 function clearAll() {
