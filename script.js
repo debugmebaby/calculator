@@ -37,7 +37,7 @@ function clearAll(){
 
 function clearEntry() {
   currentInput = currentInput.slice(0, -1);
-  updateDisplay(currentInput || '0');
+  updateDisplay(firstOperand + (currentOperator ? '' + currentOperator + '' : '') + currentInput || '0');
 }
 
 function handlerNumber(number) {
@@ -47,8 +47,9 @@ function handlerNumber(number) {
   }
   if (currentInput.length >= 12) return;
   currentInput += number;
-  updateDisplay(currentInput);
+  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
+
 
 function handleDecimal(){
   if (resultDisplayed){
@@ -57,6 +58,21 @@ function handleDecimal(){
   }
   if (!currentInput.includes('.')){
     currentInput += currentInput === '' ? '0.' : '.';
-    updateDisplay(currentInput);
+    updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
   }
 }
+
+function handleOperator(operator){
+  if(currentInput === '') return;
+
+  if(firstOperand === ''){
+    firstOperand = currentInput;
+    currentOperator = currentInput;
+    currentInput = '';
+    updateDisplay(firstOperand + '' + currentOperator);
+  } else if (!currentOperator){
+    currentOperator = operator;
+    updateDisplay(firstOperand + '' + currentOperator);
+  }
+}
+
