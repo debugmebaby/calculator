@@ -40,14 +40,17 @@ function clearEntry() {
 }
 
 function handleNumber(number) {
-    if (resultDisplayed) {
-        currentInput = '';
-        resultDisplayed = false;
-    }
-    if (currentInput.length >= 15) return;
-    currentInput += number;
-    updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+  if (resultDisplayed) {
+      currentInput = '';
+      firstOperand = '';
+      currentOperator = null;
+      resultDisplayed = false;
+  }
+  if (currentInput.length >= 15) return;
+  currentInput += number;
+  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
+
 
 function handleDecimal() {
     if (resultDisplayed) {
