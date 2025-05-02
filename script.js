@@ -22,7 +22,20 @@ function operate(operator, a, b) {
 }
 
 function updateDisplay(value) {
-    display.textContent = value.toString().slice(0, 11);
+    display.textContent = value;
+    adjustFontSize(value); // Anropar funktionen för att justera fontstorleken
+}
+
+function adjustFontSize(value) {
+    const length = value.length;
+    
+    if (length > 15) {
+        display.style.fontSize = '1rem';  // Om det är väldigt långt, minska storleken
+    } else if (length > 11) {
+        display.style.fontSize = '1.4rem';  // Om det är över 11 men inte för långt, ge en lite mindre storlek
+    } else {
+        display.style.fontSize = '1.8rem';  // Standardstorlek
+    }
 }
 
 function clearAll() {
@@ -40,17 +53,13 @@ function clearEntry() {
 }
 
 function handleNumber(number) {
-  if (resultDisplayed) {
-      currentInput = '';
-      firstOperand = '';
-      currentOperator = null;
-      resultDisplayed = false;
-  }
-  if (currentInput.length >= 11) return;
-  currentInput += number;
-  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    if (resultDisplayed) {
+        currentInput = '';
+        resultDisplayed = false;
+    }
+    currentInput += number;
+    updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
-
 
 function handleDecimal() {
     if (resultDisplayed) {
