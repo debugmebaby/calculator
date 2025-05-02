@@ -50,3 +50,13 @@ function handlerNumber(number) {
   updateDisplay(currentInput);
 }
 
+function handleDecimal(){
+  if (resultDisplayed){
+    currentInput = '0';
+    resultDisplayed = false;
+  }
+  if (!currentInput.includes('.')){
+    currentInput += currentInput === '' ? '0.' : '.';
+    updateDisplay(currentInput);
+  }
+}
