@@ -35,3 +35,9 @@ function clearAll(){
   resultDisplayed = false;
    updateDisplay('0');
 }
+
+function clearEntry() {
+  currentInput = currentInput.slice(0, -1);
+  updateDisplay(currentInput || '0');
+  
+}
