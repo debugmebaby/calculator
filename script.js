@@ -44,7 +44,7 @@ function handleNumber(number) {
         currentInput = '';
         resultDisplayed = false;
     }
-    if (currentInput.length >= 12) return;
+    if (currentInput.length >= 15) return;
     currentInput += number;
     updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
