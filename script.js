@@ -26,3 +26,12 @@ function updateDisplay (value){
    display.textContent = value.toString().slice(0, 12);
 
 }
+
+function clearAll(){
+  currentInput = '';
+  firstOperand = '';
+  secondOperand = '';
+  currentOperator = null;
+  resultDisplayed = false;
+   updateDisplay('0');
+}
