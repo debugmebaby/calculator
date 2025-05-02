@@ -1,7 +1,6 @@
 const display = document.querySelector('.display');
 let currentInput = '';
 let firstOperand = '';
-let secondOperand = '';
 let currentOperator = null;
 let resultDisplayed = false;
 
@@ -22,81 +21,104 @@ function operate(operator, a, b) {
     }
 }
 
-function updateDisplay (value){
-   display.textContent = value.toString().slice(0, 12);
+function updateDisplay(value) {
+    display.textContent = value.toString().slice(0, 12);
 }
 
-function clearAll(){
-  currentInput = '';
-  firstOperand = '';
-  secondOperand = '';
-  currentOperator = null;
-  resultDisplayed = false;
-   updateDisplay('0');
+function clearAll() {
+    currentInput = '';
+    firstOperand = '';
+    currentOperator = null;
+    resultDisplayed = false;
+    updateDisplay('0');
 }
 
 function clearEntry() {
-  currentInput = currentInput.slice(0, -1);
-  updateDisplay(firstOperand + (currentOperator ? '' + currentOperator + '' : '') + currentInput || '0');
+    currentInput = currentInput.slice(0, -1);
+    const displayValue = firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput;
+    updateDisplay(displayValue.trim() || '0');
 }
 
-function handlerNumber(number) {
-  if(resultDisplayed){
-    currentInput = '';
-    resultDisplayed = false;
-  }
-  if (currentInput.length >= 12) return;
-  currentInput += number;
-  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-}
-
-
-function handleDecimal(){
-  if (resultDisplayed){
-    currentInput = '0';
-    resultDisplayed = false;
-  }
-  if (!currentInput.includes('.')){
-    currentInput += currentInput === '' ? '0.' : '.';
+function handleNumber(number) {
+    if (resultDisplayed) {
+        currentInput = '';
+        resultDisplayed = false;
+    }
+    if (currentInput.length >= 12) return;
+    currentInput += number;
     updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-  }
 }
 
-function handleOperator(operator){
-  if(currentInput === '') return;
+function handleDecimal() {
+    if (resultDisplayed) {
+        currentInput = '0';
+        resultDisplayed = false;
+    }
+    if (!currentInput.includes('.')) {
+        currentInput += currentInput === '' ? '0.' : '.';
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
+}
 
-  if(firstOperand === ''){
-    firstOperand = currentInput;
-    currentOperator = currentInput;
-    currentInput = '';
-    updateDisplay(firstOperand + '' + currentOperator);
-  } else if (!currentOperator){
-    currentOperator = operator;
-    updateDisplay(firstOperand + '' + currentOperator);
-  }
+function handleOperator(operator) {
+    if (currentInput === '') return;
+
+    if (firstOperand === '') {
+        firstOperand = currentInput;
+        currentOperator = operator;
+        currentInput = '';
+        updateDisplay(firstOperand + ' ' + currentOperator);
+    } else if (!currentOperator) {
+        currentOperator = operator;
+        updateDisplay(firstOperand + ' ' + currentOperator);
+    }
 }
 
 function handleEquals() {
-  if(firstOperand === '' || currentOperator === null || currentInput === '') return;
+    if (firstOperand === '' || currentOperator === null || currentInput === '') return;
 
-  const result = operate(currentOperator, firstOperand, currentInput);
-  updateDisplay(result);
-  firstOperand = result.toString();
-  currentInput = '';
-  currentOperator = null;
-  resultDisplayed = true;
+    const result = operate(currentOperator, firstOperand, currentInput);
+    updateDisplay(result);
+    firstOperand = result.toString();
+    currentInput = '';
+    currentOperator = null;
+    resultDisplayed = true;
 }
 
 function handlePlusMinus() {
-  if (currentInput !== '') {
-      currentInput = (parseFloat(currentInput) * -1).toString();
-      updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-  }
+    if (currentInput !== '') {
+        currentInput = (parseFloat(currentInput) * -1).toString();
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
 
 function handlePercent() {
-  if (currentInput !== '') {
-      currentInput = (parseFloat(currentInput) / 100).toString();
-      updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-  }
+    if (currentInput !== '') {
+        currentInput = (parseFloat(currentInput) / 100).toString();
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
+
+document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.dataset.value;
+
+        if (button.classList.contains('number')) {
+            handleNumber(value);
+        }
+        if (button.classList.contains('operator')) {
+            let op = value;
+            if (op === '×') op = '*';
+            if (op === '÷') op = '/';
+            handleOperator(op);
+        }
+        if (button.classList.contains('equals')) handleEquals();
+        if (button.classList.contains('function')) {
+            if (button.classList.contains('ce')) clearEntry();
+            else if (button.classList.contains('c')) clearAll();
+            else if (button.classList.contains('decimal')) handleDecimal();
+            else if (button.classList.contains('plus-minus')) handlePlusMinus();
+        }
+        if (button.classList.contains('percent')) handlePercent();
+    });
+});
