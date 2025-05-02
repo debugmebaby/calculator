@@ -1,126 +1,149 @@
 const display = document.querySelector('.display');
 let currentInput = '';
 let firstOperand = '';
-let currentOperator = '';
+let currentOperator = null;
 let resultDisplayed = false;
 
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => b === 0 ? "bruh..." : a / b;
+
+function operate(operator, a, b) {
+    a = parseFloat(a);
+    b = parseFloat(b);
+    switch (operator) {
+        case '+': return add(a, b);
+        case '-': return subtract(a, b);
+        case '*': return multiply(a, b);
+        case '/': return divide(a, b);
+        default: return "lol NaN";
+    }
+}
+
 function updateDisplay(value) {
-  display.textContent = value;
+    // Uppdaterar displayen
+    display.textContent = value;
+
+    // Justera fontstorleken beroende på längden på texten
+    adjustFontSize(value);
+}
+
+// Funktion för att justera fontstorlek baserat på längden på displayen
+function adjustFontSize(value) {
+    const maxWidth = display.offsetWidth; // Bredden på displayen
+    const textLength = value.length; // Längden på texten
+
+    // Grundstorlek
+    let fontSize = 1.8;
+
+    // Justera fontstorleken så att den minskar om texten är längre än 10 tecken
+    if (textLength > 10) {
+        fontSize -= (textLength - 10) * 0.08; // Minska fontstorleken baserat på längden
+    }
+
+    // Sätt ett minimivärde för fontstorleken
+    if (fontSize < 1.2) fontSize = 1.2;  // Minimum fontstorlek
+
+    // Sätt den justerade fontstorleken
+    display.style.fontSize = `${fontSize}rem`;
 }
 
 function clearAll() {
-  currentInput = '';
-  firstOperand = '';
-  currentOperator = '';
-  resultDisplayed = false;
-  updateDisplay('0');
+    currentInput = '';
+    firstOperand = '';
+    currentOperator = null;
+    resultDisplayed = false;
+    updateDisplay('0');
 }
 
-function deleteLast() {
-  if (resultDisplayed) return;
-  currentInput = currentInput.slice(0, -1);
-  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+function clearEntry() {
+    currentInput = currentInput.slice(0, -1);
+    const displayValue = firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput;
+    updateDisplay(displayValue.trim() || '0');
 }
 
 function handleNumber(number) {
   if (resultDisplayed) {
-    // Nollställ om man börjar skriva ny siffra efter "="
-    currentInput = '';
-    firstOperand = '';
-    currentOperator = '';
-    resultDisplayed = false;
-    updateDisplay('');
+      currentInput = '';
+      firstOperand = '';
+      currentOperator = null;
+      resultDisplayed = false;
   }
-
-  if (currentInput.length >= 15) return;
   currentInput += number;
   updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
 }
 
-function handleOperator(operator) {
-  if (resultDisplayed) {
-    // Fortsätt från tidigare resultat
-    currentInput = '';
-    currentOperator = operator;
-    resultDisplayed = false;
-    updateDisplay(firstOperand + ' ' + currentOperator + ' ');
-    return;
-  }
-
-  if (currentInput === '' && firstOperand !== '') {
-    currentOperator = operator;
-    updateDisplay(firstOperand + ' ' + currentOperator);
-  } else if (currentInput !== '') {
-    firstOperand = currentInput;
-    currentOperator = operator;
-    currentInput = '';
-    updateDisplay(firstOperand + ' ' + currentOperator);
-  }
+function handleDecimal() {
+    if (resultDisplayed) {
+        currentInput = '0';
+        resultDisplayed = false;
+    }
+    if (!currentInput.includes('.')) {
+        currentInput += currentInput === '' ? '0.' : '.';
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
 
-function calculate() {
-  if (firstOperand === '' || currentOperator === '' || currentInput === '') return;
+function handleOperator(operator) {
+    if (currentInput === '') return;
 
-  const a = parseFloat(firstOperand);
-  const b = parseFloat(currentInput);
-  let result = 0;
+    if (firstOperand === '') {
+        firstOperand = currentInput;
+        currentOperator = operator;
+        currentInput = '';
+        updateDisplay(firstOperand + ' ' + currentOperator);
+    } else if (!currentOperator) {
+        currentOperator = operator;
+        updateDisplay(firstOperand + ' ' + currentOperator);
+    }
+}
 
-  switch (currentOperator) {
-    case '+':
-      result = a + b;
-      break;
-    case '-':
-      result = a - b;
-      break;
-    case '×':
-    case '*':
-      result = a * b;
-      break;
-    case '÷':
-    case '/':
-      if (b === 0) {
-        updateDisplay("You wish 🧙‍♂️");
-        return;
-      }
-      result = a / b;
-      break;
-    default:
-      return;
-  }
+function handleEquals() {
+    if (firstOperand === '' || currentOperator === null || currentInput === '') return;
 
-  result = Math.round(result * 100000000) / 100000000; // Begränsa decimaler
-  updateDisplay(result.toString());
-  firstOperand = result.toString();
-  currentInput = '';
-  currentOperator = '';
-  resultDisplayed = true;
+    const result = operate(currentOperator, firstOperand, currentInput);
+    updateDisplay(result);
+    firstOperand = result.toString();
+    currentInput = '';
+    currentOperator = null;
+    resultDisplayed = true;
+}
+
+function handlePlusMinus() {
+    if (currentInput !== '') {
+        currentInput = (parseFloat(currentInput) * -1).toString();
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
 
 function handlePercent() {
-  if (currentInput !== '') {
-    currentInput = (parseFloat(currentInput) / 100).toString();
-    updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-  }
+    if (currentInput !== '') {
+        currentInput = (parseFloat(currentInput) / 100).toString();
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
 
-function toggleSign() {
-  if (currentInput !== '') {
-    currentInput = (parseFloat(currentInput) * -1).toString();
-    updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-  }
-}
+document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.dataset.value;
 
-// Event listeners
-document.querySelectorAll('.btn.number').forEach(btn =>
-  btn.addEventListener('click', () => handleNumber(btn.textContent))
-);
-
-document.querySelectorAll('.btn.operator').forEach(btn =>
-  btn.addEventListener('click', () => handleOperator(btn.textContent))
-);
-
-document.querySelector('.btn.equals').addEventListener('click', calculate);
-document.querySelector('.btn.clear').addEventListener('click', clearAll);
-document.querySelector('.btn.delete').addEventListener('click', deleteLast);
-document.querySelector('.btn.percent').addEventListener('click', handlePercent);
-document.querySelector('.btn.sign').addEventListener('click', toggleSign);
+        if (button.classList.contains('number')) {
+            handleNumber(value);
+        }
+        if (button.classList.contains('operator')) {
+            let op = value;
+            if (op === '×') op = '*';
+            if (op === '÷') op = '/';
+            handleOperator(op);
+        }
+        if (button.classList.contains('equals')) handleEquals();
+        if (button.classList.contains('function')) {
+            if (button.classList.contains('ce')) clearEntry();
+            else if (button.classList.contains('c')) clearAll();
+            else if (button.classList.contains('decimal')) handleDecimal();
+            else if (button.classList.contains('plus-minus')) handlePlusMinus();
+        }
+        if (button.classList.contains('percent')) handlePercent();
+    });
+});
