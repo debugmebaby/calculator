@@ -21,3 +21,8 @@ function operate(operator, a, b) {
         default: return "lol NaN";
     }
 }
+
+function updateDisplay (value){
+   display.textContent = value.toString().slice(0, 12);
+
+}
