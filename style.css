@@ -1,5 +1,5 @@
 body {
-  background-color: #0a0a0a;
+  background: linear-gradient(135deg, #000000 0%, #003300 100%); /* Mörk, neon-grön gradient */
   font-family: 'Orbitron', sans-serif;
   display: flex;
   justify-content: center;
@@ -16,20 +16,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-  border: 2px solid #0f0;
-  transition: box-shadow 0.3s ease-in-out;
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.4); 
+  border: 2px solid #00ff00; 
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease;
+  transform: translateY(10px); 
 }
 
 .calculator:hover {
-  box-shadow: 0 0 50px rgba(0, 255, 0, 0.7);
+  box-shadow: 0 0 50px rgba(0, 255, 0, 0.7); 
+  transform: translateY(-5px); 
 }
 
 .display {
   height: 50px;
   width: 100%;
   background-color: #000;
-  color: #0f0;
+  color: #00ff00; 
   font-size: 1.8rem;
   text-align: right;
   padding: 0 15px;
@@ -39,11 +41,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  box-shadow: inset 0 0 10px #0f0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: font-size 0.1s ease-out; /* Dynamisk fontstorlek */
+  box-shadow: inset 0 0 10px #00ff00; 
 }
 
 .buttons {
@@ -63,64 +61,59 @@ body {
   flex: 1;
   padding: 18px;
   background-color: #222;
-  color: #0f0;
+  color: #00ff00; 
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
-  text-shadow: 0 0 4px #0f0;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.1); 
+  text-shadow: 0 0 4px #00ff00; 
 }
 
 .btn:hover {
   background-color: #333;
-  box-shadow: 0 0 15px #0f0;
+  box-shadow: 0 0 15px #00ff00; 
 }
 
-/* Operator-knappar */
 .btn.operator {
-  background-color: #003300;
-  color: #0f0;
+  background-color: #333300;
+  color: #00ff00;
   font-weight: bold;
-  text-shadow: 0 0 5px #0f0;
+  text-shadow: 0 0 5px #00ff00; 
 }
 
-/* Equals-knappen */
 .btn.equals {
-  background-color: #00cc00;
+  background-color: #00ff00;
   color: #000;
   font-weight: bold;
-  box-shadow: 0 0 15px #00ff00;
+  box-shadow: 0 0 15px #00ff00; 
 }
 
 .btn.equals:hover {
-  background-color: #00e600;
+  background-color: #00cc00;
   box-shadow: 0 0 25px #00ff00;
 }
 
-/* Decimal, CE, C, +- */
 .btn.function {
-  background-color: #224422;
-  color: #0f0;
-  text-shadow: 0 0 4px #0f0;
+  background-color: #333333;
+  color: #ffff00; 
+  text-shadow: 0 0 4px #ffff00; 
 }
 
-/* Percent-knappen */
+
 .btn.percent {
-  background-color: #004400;
-  color: #0f0;
-  text-shadow: 0 0 4px #0f0;
+  background-color: #00cc00;
+  color: #ffffff;
+  text-shadow: 0 0 4px #00cc00; 
 }
 
-/* Sifferknappar */
 .btn.number {
-  color: #0f0;
+  color: #ffcc00; 
   background-color: #111;
-  text-shadow: 0 0 6px #0f0;
+  text-shadow: 0 0 6px #ffcc00; 
 }
 
-/* Responsivt */
 @media (max-width: 400px) {
   .calculator {
     width: 90%;
