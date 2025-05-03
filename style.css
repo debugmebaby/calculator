@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(135deg, #3b0a45, #2c9c6e); /* Lila till grön gradient */
+  background: linear-gradient(135deg, #3b0a45, #2c9c6e); 
   font-family: 'Orbitron', sans-serif;
   display: flex;
   justify-content: center;
@@ -16,21 +16,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 0 60px rgba(0, 255, 0, 0.6); /* Starkare skugga under kalkylatorn */
-  border: 2px solid #6b2b8e; /* Initial lila kant */
-  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease, border-color 0.3s ease; /* Lägg till border-color transition */
-  transform: translateY(0px); /* Förändrar inte kalkylatorns position initialt */
-  animation: none; /* Ingen snurrning från början */
+  box-shadow: 0 0 60px rgba(0, 255, 0, 0.6); 
+  border: 2px solid #6b2b8e; 
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease, border-color 0.3s ease; 
+  transform: translateY(0px); 
+  animation: none;
 }
 
 .calculator:hover {
-  transform: translateY(-10px); /* Lyft kalkylatorn uppåt utan att flytta på den */
-  box-shadow: 0 15px 50px rgba(0, 255, 0, 0.8); /* Större och starkare shadow vid hover */
-  border-color: #00ff00; /* Grön kant vid hover */
+  transform: translateY(-10px); 
+  box-shadow: 0 15px 50px rgba(0, 255, 0, 0.8); 
+  border-color: #00ff00; 
 }
 
 .calculator.spinning {
-  animation: spin-animation 1.5s 3 linear; /* 1.5 sekunder för 3 varv */
+  animation: spin-animation 1.5s 3 linear; 
 }
 
 @keyframes spin-animation {
@@ -38,13 +38,13 @@ body {
     transform: rotate(0deg);
   }
   33% {
-    transform: rotate(120deg); /* 1/3 av ett varv */
+    transform: rotate(120deg); 
   }
   66% {
-    transform: rotate(240deg); /* 2/3 av ett varv */
+    transform: rotate(240deg); 
   }
   100% {
-    transform: rotate(360deg); /* Ett helt varv */
+    transform: rotate(360deg); 
   }
 }
 
@@ -52,17 +52,17 @@ body {
   height: 50px;
   width: 100%;
   background-color: #000;
-  color: #ffcc00; /* Gul text */
+  color: #ffcc00; 
   font-size: 1.8rem;
   text-align: right;
-  padding: 0 15px;
   margin-bottom: 20px;
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  box-shadow: inset 0 0 10px #00ff00; /* Glödande grön skugga inuti displayen */
+  box-shadow: inset 0 0 10px #00ff00; 
+  overflow: hidden;
 }
 
 .buttons {
@@ -88,18 +88,18 @@ body {
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(0, 255, 0, 0.5); /* Större och mer definierad shadow under knapparna */
+  box-shadow: 0 10px 20px rgba(0, 255, 0, 0.5); 
   text-shadow: 0 0 4px #00ff00; 
-  min-width: 60px; /* Säkerställer att knapparna inte krymper */
+  min-width: 60px; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .btn:hover {
-  background: linear-gradient(135deg, #6b2b8e, #00ff00); /* Lila till grön övergång på hover */
-  color: #000; /* För att säkerställa att texten är synlig */
-  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.8); /* Större och intensivare shadow vid hover */
+  background: linear-gradient(135deg, #6b2b8e, #00ff00); 
+  color: #000; 
+  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.8); 
 }
 
 .btn.operator {
