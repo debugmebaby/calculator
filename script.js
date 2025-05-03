@@ -3,6 +3,7 @@ let currentInput = '';
 let firstOperand = '';
 let currentOperator = null;
 let resultDisplayed = false;
+const calculator = document.querySelector('.calculator'); // Hämta kalkylatorn för att kunna rotera
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -55,12 +56,10 @@ function clearEntry() {
 
 function handleNumber(number) {
     if (resultDisplayed) {
-        // När ett resultat har visats och användaren trycker på en siffra, återställ kalkylatorn
         currentInput = number;
         resultDisplayed = false;
         updateDisplay(currentInput);
     } else {
-        // Lägg till siffran till nuvarande input
         currentInput += number;
         updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
     }
@@ -78,7 +77,7 @@ function handleDecimal() {
 }
 
 function handleOperator(operator) {
-    if (currentInput === '' && !resultDisplayed) return;  // Ingen operator om det inte finns någon inmatning
+    if (currentInput === '' && !resultDisplayed) return;
 
     if (firstOperand === '') {
         firstOperand = currentInput;
@@ -86,14 +85,12 @@ function handleOperator(operator) {
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
     } else if (resultDisplayed) {
-        // När resultatet visas och användaren trycker på en operator, använd resultatet som första operand
-        firstOperand = firstOperand;  // Första operand är resultatet
+        firstOperand = firstOperand;
         currentOperator = operator;
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
         resultDisplayed = false;
     } else {
-        // Utför beräkningen
         firstOperand = operate(currentOperator, firstOperand, currentInput).toString();
         currentOperator = operator;
         currentInput = '';
@@ -106,7 +103,7 @@ function handleEquals() {
 
     const result = operate(currentOperator, firstOperand, currentInput);
     updateDisplay(result);
-    firstOperand = result.toString();  // Uppdatera första operand till resultatet
+    firstOperand = result.toString();
     currentInput = '';
     currentOperator = null;
     resultDisplayed = true;
@@ -119,11 +116,14 @@ function handlePlusMinus() {
     }
 }
 
-function handlePercent() {
-    if (currentInput !== '') {
-        currentInput = (parseFloat(currentInput) / 100).toString();
-        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
-    }
+function handleSpin() {
+    // Lägg till "spinning"-klassen för att starta snurrningen
+    calculator.classList.add('spinning');
+
+    // Efter 2 sekunder (snurrningens varaktighet), ta bort snurrningen
+    setTimeout(() => {
+        calculator.classList.remove('spinning');
+    }, 2000); // 2 sekunder
 }
 
 document.querySelectorAll('.btn').forEach(button => {
@@ -145,7 +145,7 @@ document.querySelectorAll('.btn').forEach(button => {
             else if (button.classList.contains('c')) clearAll();
             else if (button.classList.contains('decimal')) handleDecimal();
             else if (button.classList.contains('plus-minus')) handlePlusMinus();
+            else if (button.classList.contains('spin')) handleSpin();  // Spin-funktionen
         }
-        if (button.classList.contains('percent')) handlePercent();
     });
 });
