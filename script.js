@@ -22,30 +22,20 @@ function operate(operator, a, b) {
 }
 
 function updateDisplay(value) {
-    // Uppdaterar displayen
     display.textContent = value;
-
-    // Justera fontstorleken beroende på längden på texten
     adjustFontSize(value);
 }
 
-// Funktion för att justera fontstorlek baserat på längden på displayen
 function adjustFontSize(value) {
-    const maxWidth = display.offsetWidth; // Bredden på displayen
-    const textLength = value.length; // Längden på texten
-
-    // Grundstorlek
+    const maxWidth = display.offsetWidth;
+    const textLength = value.length;
     let fontSize = 1.8;
 
-    // Justera fontstorleken så att den minskar om texten är längre än 10 tecken
     if (textLength > 10) {
-        fontSize -= (textLength - 10) * 0.08; // Minska fontstorleken baserat på längden
+        fontSize -= (textLength - 10) * 0.08;
     }
 
-    // Sätt ett minimivärde för fontstorleken
-    if (fontSize < 1.2) fontSize = 1.2;  // Minimum fontstorlek
-
-    // Sätt den justerade fontstorleken
+    if (fontSize < 1.2) fontSize = 1.2;
     display.style.fontSize = `${fontSize}rem`;
 }
 
@@ -64,14 +54,16 @@ function clearEntry() {
 }
 
 function handleNumber(number) {
-  if (resultDisplayed) {
-      currentInput = '';
-      firstOperand = '';
-      currentOperator = null;
-      resultDisplayed = false;
-  }
-  currentInput += number;
-  updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    if (resultDisplayed) {
+        // När ett resultat har visats och användaren trycker på en siffra, återställ kalkylatorn
+        currentInput = number;
+        resultDisplayed = false;
+        updateDisplay(currentInput);
+    } else {
+        // Lägg till siffran till nuvarande input
+        currentInput += number;
+        updateDisplay(firstOperand + (currentOperator ? ' ' + currentOperator + ' ' : '') + currentInput);
+    }
 }
 
 function handleDecimal() {
@@ -86,15 +78,25 @@ function handleDecimal() {
 }
 
 function handleOperator(operator) {
-    if (currentInput === '') return;
+    if (currentInput === '' && !resultDisplayed) return;  // Ingen operator om det inte finns någon inmatning
 
     if (firstOperand === '') {
         firstOperand = currentInput;
         currentOperator = operator;
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
-    } else if (!currentOperator) {
+    } else if (resultDisplayed) {
+        // När resultatet visas och användaren trycker på en operator, använd resultatet som första operand
+        firstOperand = firstOperand;  // Första operand är resultatet
         currentOperator = operator;
+        currentInput = '';
+        updateDisplay(firstOperand + ' ' + currentOperator);
+        resultDisplayed = false;
+    } else {
+        // Utför beräkningen
+        firstOperand = operate(currentOperator, firstOperand, currentInput).toString();
+        currentOperator = operator;
+        currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
     }
 }
@@ -104,7 +106,7 @@ function handleEquals() {
 
     const result = operate(currentOperator, firstOperand, currentInput);
     updateDisplay(result);
-    firstOperand = result.toString();
+    firstOperand = result.toString();  // Uppdatera första operand till resultatet
     currentInput = '';
     currentOperator = null;
     resultDisplayed = true;
