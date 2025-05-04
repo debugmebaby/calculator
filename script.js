@@ -85,17 +85,20 @@ function handleOperator(operator) {
         currentOperator = operator;
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
+        display.classList.add('active'); // Lägg till active-klassen för transition
     } else if (resultDisplayed) {
         firstOperand = firstOperand;
         currentOperator = operator;
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
         resultDisplayed = false;
+        display.classList.add('active'); // Lägg till active-klassen för transition
     } else {
         firstOperand = operate(currentOperator, firstOperand, currentInput).toString();
         currentOperator = operator;
         currentInput = '';
         updateDisplay(firstOperand + ' ' + currentOperator);
+        display.classList.add('active'); // Lägg till active-klassen för transition
     }
 }
 
@@ -108,6 +111,7 @@ function handleEquals() {
     currentInput = '';
     currentOperator = null;
     resultDisplayed = true;
+    display.classList.remove('active'); // Ta bort active-klassen när resultatet visas
 }
 
 function handlePlusMinus() {
@@ -132,8 +136,6 @@ function handlePercent() {
         updateDisplay(currentInput); 
     }
 }
-
-
 
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
