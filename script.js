@@ -56,6 +56,8 @@ function clearEntry() {
 function handleNumber(number) {
     if (resultDisplayed) {
         currentInput = number;
+        firstOperand = ''; 
+        currentOperator = null; 
         resultDisplayed = false;
         updateDisplay(currentInput);
     } else {
