@@ -3,7 +3,6 @@ let currentInput = '';
 let firstOperand = '';
 let currentOperator = null;
 let resultDisplayed = false;
-const calculator = document.querySelector('.calculator'); // Hämta kalkylatorn för att kunna rotera
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -116,15 +115,19 @@ function handlePlusMinus() {
     }
 }
 
-function handleSpin() {
-    // Lägg till "spinning"-klassen för att starta snurrningen
-    calculator.classList.add('spinning');
+function handlePercent() {
+    if (firstOperand !== '' && currentInput !== '') {
+        const first = parseFloat(firstOperand); // Första operand (t.ex. 20 eller 50)
+        const current = parseFloat(currentInput); // Andra operand (t.ex. 50 eller 20)
 
-    // Efter 2 sekunder (snurrningens varaktighet), ta bort snurrningen
-    setTimeout(() => {
-        calculator.classList.remove('spinning');
-    }, 2000); // 2 sekunder
+        // Beräkna den andra siffran som procent av den första
+        const percentage = (current / first) * 100;
+
+        currentInput = percentage.toFixed(2).toString() + '%'; // Lägg till '%' efter resultatet
+        updateDisplay(currentInput); // Visa resultatet på skärmen
+    }
 }
+
 
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
@@ -145,7 +148,7 @@ document.querySelectorAll('.btn').forEach(button => {
             else if (button.classList.contains('c')) clearAll();
             else if (button.classList.contains('decimal')) handleDecimal();
             else if (button.classList.contains('plus-minus')) handlePlusMinus();
-            else if (button.classList.contains('spin')) handleSpin();  // Spin-funktionen
+            else if (button.classList.contains('percent')) handlePercent();
         }
     });
 });
