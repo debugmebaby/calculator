@@ -117,14 +117,13 @@ function handlePlusMinus() {
 
 function handlePercent() {
     if (firstOperand !== '' && currentInput !== '') {
-        const first = parseFloat(firstOperand); // Första operand (t.ex. 20 eller 50)
-        const current = parseFloat(currentInput); // Andra operand (t.ex. 50 eller 20)
+        const first = parseFloat(firstOperand); 
+        const current = parseFloat(currentInput); 
 
-        // Beräkna den andra siffran som procent av den första
         const percentage = (current / first) * 100;
 
-        currentInput = percentage.toFixed(2).toString() + '%'; // Lägg till '%' efter resultatet
-        updateDisplay(currentInput); // Visa resultatet på skärmen
+        currentInput = percentage.toFixed(2).toString() + '%'; 
+        updateDisplay(currentInput); 
     }
 }
 
