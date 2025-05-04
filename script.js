@@ -124,10 +124,15 @@ function handlePercent() {
 
         const percentage = (current / first) * 100;
 
-        currentInput = percentage.toFixed(2).toString() + '%'; 
+        const formattedPercentage = Number.isInteger(percentage) 
+            ? percentage.toString() + '%' 
+            : percentage.toFixed(2) + '%';
+
+        currentInput = formattedPercentage;
         updateDisplay(currentInput); 
     }
 }
+
 
 
 document.querySelectorAll('.btn').forEach(button => {
