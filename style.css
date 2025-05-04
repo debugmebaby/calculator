@@ -29,25 +29,6 @@ body {
   border-color: #00ff00; 
 }
 
-.calculator.spinning {
-  animation: spin-animation 1.5s 3 linear; 
-}
-
-@keyframes spin-animation {
-  0% {
-    transform: rotate(0deg);
-  }
-  33% {
-    transform: rotate(120deg); 
-  }
-  66% {
-    transform: rotate(240deg); 
-  }
-  100% {
-    transform: rotate(360deg); 
-  }
-}
-
 .display {
   height: 50px;
   width: 100%;
