@@ -7,7 +7,7 @@ let resultDisplayed = false;
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => b === 0 ? "Missed math class?o.O" : a / b;
+const divide = (a, b) => b === 0 ? "Mr Math? o.O" : a / b;
 
 function operate(operator, a, b) {
     a = parseFloat(a);
